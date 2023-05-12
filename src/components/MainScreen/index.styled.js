@@ -151,7 +151,7 @@ export const CreateButton = styled.button`
   width: 255px;
   height: 255px;
 
- 
+ border: 2px solid #3A393B;
   box-shadow: 5px 5px 50px rgba(70, 27, 194, 0.2);
   border-radius: 64px;
 

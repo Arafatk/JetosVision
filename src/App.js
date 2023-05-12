@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import Navbar from "./components/Navbar";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import AskMe from "./components/AskMe";
 import LoginIn from "./components/LoginIn";
 import SignIn from "./components/SignIn";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MainScreen from "./components/MainScreen";
+import CreateProjectScreen from "./components/CreateProjectScreen";
 
 const MainContainer = styled.div`
   background: rgba(0, 0, 0, 0.1);
@@ -17,9 +18,11 @@ const MainContainer = styled.div`
 `;
 
 function App() {
+  const  location = useLocation()
+  const hideNavBar = location.pathname === '/createProject';
   return (
     <MainContainer>
-      <Navbar />
+     {!hideNavBar &&  <Navbar />}
       <Routes>
         <Route exact path="/" element={<ProtectedRoute  />}>
           <Route path="/askme" element={<AskMe />} />
@@ -27,8 +30,7 @@ function App() {
         <Route exact path="/login" element={<LoginIn />} />
         <Route exact path="/mainPage" element={<MainScreen />} />
         <Route path="/signin" element={<SignIn />} />
-
-       
+        <Route path="/createProject" element={<CreateProjectScreen />} />
       </Routes>
     </MainContainer>
   );
