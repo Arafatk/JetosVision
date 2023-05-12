@@ -8,12 +8,12 @@ export const FaqSection = styled.div`
   gap: 24px;
 
   width: 95%;
-  margin: 1rem auto;
+  margin: 2rem auto;
   height: auto;
 
 @media(min-width: 1290px) {
   width: 80%;
-  margin: 1rem auto;
+  margin: 2rem auto;
 }
 
 `;
@@ -36,6 +36,25 @@ color: #BDBDBD;
 
 `;
 
+
+export const  FaqMainContainer = styled.div`
+box-sizing: border-box;
+padding: 32px;
+/* Auto layout */
+
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 10px;
+
+width: 100%;
+height: auto;
+overflow-y: scroll;
+
+border: 2px solid #3E3E3E;
+border-radius: 32px;
+`
+
 export const FaqList = styled.div`
 box-sizing: border-box;
 
@@ -44,6 +63,7 @@ box-sizing: border-box;
 display: flex;
 flex-direction: column;
 align-items: flex-start;
+
 gap: 10px;
 
 width: 100%;
@@ -59,12 +79,12 @@ border-radius: 32px;
 
 export const ListItem = styled.div`
   box-sizing: border-box;
-
+  border: 2px solid #3E3E3E;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0.9rem;
-  margin: 1rem auto;
+  padding: 32px;
+  margin: 0.5rem auto;
   gap: 10px;
 
   width: 100%;
@@ -83,10 +103,10 @@ export const ListItem = styled.div`
 export const Question = styled.div`
 display: flex;
 justify-content: space-between;
+margin-right: 8px;
 align-items: center;
 width: 100%;
 height: auto;
-
 font-family: 'Inter';
 font-style: normal;
 font-weight: 600;

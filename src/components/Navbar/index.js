@@ -8,7 +8,7 @@ import {
 } from "./index.styled";
 import NavbarLogo from "../../assests/logo/logo.png";
 import styled from "styled-components";
-import { Bluetext } from "../FileUpload/index.styled";
+import { Bluetext } from "../MainScreen/index.styled";
 
 const LOGIN_SIGNUP = {
   login: "LOGIN",
@@ -30,6 +30,11 @@ export default function Navbar() {
     setIsSignUp(LOGIN_SIGNUP.login);
   };
 
+  const handleMainScreen = (e) => {
+    navigate("/mainPage");
+    setIsSignUp(LOGIN_SIGNUP.login);
+  };
+
   const handleTryNow = (e) => {
     navigate("/signIn");
     setIsSignUp(LOGIN_SIGNUP.signUp);
@@ -47,7 +52,7 @@ export default function Navbar() {
   return (
     <>
       <MainConatiner>
-        <ImageContainer>
+        <ImageContainer onClick={handleMainScreen}>
           <img src={NavbarLogo} alt="navbar_logo" />
         </ImageContainer>
         {isAuth ? (

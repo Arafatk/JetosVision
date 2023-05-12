@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import Navbar from "./components/Navbar";
-import FileUpload from "./components/FileUpload";
 import { Route, Routes } from "react-router-dom";
 import AskMe from "./components/AskMe";
 import LoginIn from "./components/LoginIn";
 import SignIn from "./components/SignIn";
 import ProtectedRoute from "./components/ProtectedRoute";
+import MainScreen from "./components/MainScreen";
 
 const MainContainer = styled.div`
   background: rgba(0, 0, 0, 0.1);
@@ -25,7 +25,7 @@ function App() {
           <Route path="/askme" element={<AskMe />} />
         </Route>
         <Route exact path="/login" element={<LoginIn />} />
-        <Route exact path="/mainPage" element={<FileUpload />} />
+        <Route exact path="/mainPage" element={<MainScreen />} />
         <Route path="/signin" element={<SignIn />} />
 
        
