@@ -1,29 +1,26 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-  Blackwrapper,
-  Whitetext,
-  Bluetext,
-  Textbox2,
-  CreateButton,
-} from "./index.styled";
-import "./index.css";
-import UploadLogo from "../../assests/icons/upload.png";
-import FileList from "../FileList";
-
-
-
 import { useNavigate } from "react-router-dom";
-import HowItWorks from "../HowItWorks";
-import Faq from "../Faq";
-import AboutSection from "../AboutSection";
+import {
+  FileInputContainer,
+  FileInputDropBox,
+  FileInputPlaceholder,
+  FileInput,
+  ImageIcon,
+  Textboxdrop,
+  CreateButton,
+  MainContainer,
+  FileListContainer,
+  FileContainer,
+} from "./index.styled";
+import { useState } from "react";
+import { useRef } from "react";
+import { useEffect } from "react";
+import UploadLogo from "../../assests/icons/paper_upload.svg";
+import FileList from "../FileList";
 
 const FileUpload = () => {
   const [files, setFiles] = useState([]);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  const [userMessage, setUserMessage] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
   const onFileChange = (e) => {
     const newFiles = Array.from(e.target.files);
     const MAX_FILES = 5;
@@ -68,6 +65,10 @@ const FileUpload = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(files);
+  }, [files]);
+
   //fetch user message
   useEffect(() => {
     const fetchData = async () => {
@@ -81,7 +82,7 @@ const FileUpload = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setUserMessage(data.message);
+          //   setUserMessage(data.message);
         } else {
           console.log("error");
         }
@@ -121,18 +122,8 @@ const FileUpload = () => {
   let btnTextColor = files.length !== 0 ? "#000000" : "#828282";
   return (
     <>
-      <Blackwrapper>
-        <Whitetext> Pagewhisperer</Whitetext>
-        {/* <Bluetext>User Message: {userMessage}</Bluetext> */}
-        <Bluetext>Your Personal Research assistant</Bluetext>
-        <Textbox2>
-          Attach all documents you want to source information from
-        </Textbox2>
-        {/* {files.length !== 0 && (
-          <FileListContainer>
-            <FileList files={files} onRemoveFile={onRemoveFile} />
-          </FileListContainer>
-        )}
+      <MainContainer>
+        <FileList files={files} onRemoveFile={onRemoveFile} />
         <FileInputContainer>
           <FileInputDropBox
             ref={fileInputRef}
@@ -152,22 +143,15 @@ const FileUpload = () => {
               <Textboxdrop>Choose/Drop PDF files</Textboxdrop>
             </FileInputPlaceholder>
           </FileInputDropBox>
-        </FileInputContainer> */}
-        <CreateButton
-          onClick={() => navigate("/signIn")}
-          style={{ background: btnBackground, color: btnTextColor }}
-        >
-          Create assistant
-        </CreateButton>
-
-        {/* move to different component */}
-
-        <HowItWorks />
-
-        <AboutSection />
-
-        <Faq />
-      </Blackwrapper>
+        </FileInputContainer>
+        {files.length !== 0 && (
+          <CreateButton
+            style={{ background: btnBackground, color: btnTextColor }}
+          >
+            Create assistant
+          </CreateButton>
+        )}
+      </MainContainer>
     </>
   );
 };

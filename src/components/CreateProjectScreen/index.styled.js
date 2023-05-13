@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const MainContainer = styled.div`
   display: flex;
+  justify-content: center;
+
   height: 100vh;
 `;
 
@@ -15,26 +17,16 @@ export const Box1 = styled.div`
 `;
 
 export const Box2 = styled.div`
-  flex: 10;
+  flex: 11;
+  overflow-y: scroll;
   border: 2px solid #3e3e3e;
   height: 100vh;
-`;
-
-export const TopOptionsContainer = styled.div`
-  display: flex;
+  
+  justify-content: center;
   align-items: center;
-  flex-direction: column;
 `;
 
-export const LogoutContainer = styled.div`
-  margin: 18px;
-  cursor: pointer;
-`;
 
-export const ImageContainer = styled.div`
-  margin: 28px;
-  cursor: pointer;
-`;
 
 export const CreateProjectBox = styled.div`
   display: flex;
@@ -45,9 +37,7 @@ export const CreateProjectBox = styled.div`
   border-radius: 63px;
   border: 3px solid;
 
-  border: 3px dotted #3E3D42;
-
- 
+  border: 3px dotted #3e3d42;
 
   margin: 28px;
   flex-direction: column;
@@ -62,3 +52,10 @@ export const CreateText = styled.div`
   line-height: 24px;
   color: #f2f2f2;
 `;
+
+export const ProjectsContainer = styled.div`
+display: flex;
+flex-direction: row;
+gap: 8px;
+flex-wrap: wrap;
+`

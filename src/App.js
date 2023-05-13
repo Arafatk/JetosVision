@@ -8,6 +8,7 @@ import SignIn from "./components/SignIn";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MainScreen from "./components/MainScreen";
 import CreateProjectScreen from "./components/CreateProjectScreen";
+import ProjectScreen from "./components/ProjectScreen";
 
 const MainContainer = styled.div`
   background: rgba(0, 0, 0, 0.1);
@@ -19,7 +20,7 @@ const MainContainer = styled.div`
 
 function App() {
   const  location = useLocation()
-  const hideNavBar = location.pathname === '/createProject';
+  const hideNavBar = location.pathname === '/createProject' || '/projectScreen';
   return (
     <MainContainer>
      {!hideNavBar &&  <Navbar />}
@@ -31,6 +32,7 @@ function App() {
         <Route exact path="/mainPage" element={<MainScreen />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/createProject" element={<CreateProjectScreen />} />
+        <Route path="/projectScreen" element={<ProjectScreen />} />
       </Routes>
     </MainContainer>
   );

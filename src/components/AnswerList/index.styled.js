@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const MainContainer = styled.div`
-  width: 90%;
-  height: auto;
+ 
+  width: 100%;
+  height: 880px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,12 +16,17 @@ export const MainContainer = styled.div`
   backdrop-filter: blur(250px);
   border-radius: 32px;
   border: 1px solid gray;
-  padding: 1rem;
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 3rem;
   margin: 0.2rem;
   margin-bottom: 5rem;
+  overflow-y:scroll;
 `;
 
 export const SecondaryContainer = styled.div`
+ 
   width: 100%;
   height: auto;
   background: linear-gradient(

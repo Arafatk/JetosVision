@@ -1,0 +1,53 @@
+import {
+  Box1,
+  Box2,
+  Box3,
+  MainContainer,
+  PrimaryContainer,
+  ProjectName,
+  ChatBoxContainer,
+  AnswerContainer,
+  ProjectDataContainer,
+} from "./index.styled";
+import Sidebar from "../Sidebar";
+import FileUpload from "../FileUpload";
+import AskMe from "../AskMe";
+import { useState } from "react";
+import AnswerList from "../AnswerList";
+
+const ProjectScreen = () => {
+  const [data, setData] = useState();
+  const allData = (history) => {
+    setData(history);
+  };
+  return (
+    <MainContainer>
+      <Box1>
+        <Sidebar />
+      </Box1>
+      <Box2>
+        <ProjectDataContainer>
+          <ProjectName>Indonesia_Coal_230412_NTPC</ProjectName>
+          <div>
+            {data && data.length !== 0 ? (
+              <AnswerContainer>
+                <AnswerList data={data} />
+              </AnswerContainer>
+            ) : null}
+          </div>
+        </ProjectDataContainer>
+
+        <ChatBoxContainer>
+          <AskMe allData={allData} />
+        </ChatBoxContainer>
+      </Box2>
+      <Box3>
+        <PrimaryContainer>
+          <FileUpload />
+        </PrimaryContainer>
+      </Box3>
+    </MainContainer>
+  );
+};
+
+export default ProjectScreen;
