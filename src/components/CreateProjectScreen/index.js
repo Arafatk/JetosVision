@@ -10,7 +10,7 @@ import {
 
 import Create from "../../assests/icons/create.svg";
 import Folder from "../../assests/icons/folder.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProjectModal from "../ProjectModal";
 import Sidebar from "../Sidebar";
 
@@ -23,7 +23,33 @@ const CreateProjectScreen = () => {
     setIsCreateProjectModal(!isCreateProjectModal);
   };
 
-  
+  useEffect(() => {
+    console.log("hello")
+    const fetchData = async () => {
+      console.log("hello")
+      const token = localStorage.getItem("token");
+      if (token) {
+        console.log("hello")
+        const response = await fetch(
+          "/list_namespaces",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setProjects(data.namespaces)
+        } else {
+          console.log("error");
+        }
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -35,16 +61,16 @@ const CreateProjectScreen = () => {
         </Box1>
         <Box2>
           {projects.length !== 0 ? (
-            <ProjectsContainer>
+            <ProjectsContainer >
               <CreateProjectBox
                 onClick={() => setIsCreateProjectModal(!isCreateProjectModal)}
               >
                 <img src={Create} alt="folder_logo" />
                 <CreateText>Create Project</CreateText>
               </CreateProjectBox>
-              {projects.map((project) => {
+              {projects.map((project, index) => {
                 return (
-                  <CreateProjectBox>
+                  <CreateProjectBox key={index}>
                     <img src={Folder} alt="navbar_logo" />
                     <CreateText>{project}</CreateText>
                   </CreateProjectBox>

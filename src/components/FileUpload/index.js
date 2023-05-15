@@ -11,9 +11,7 @@ import {
   FileListContainer,
   FileContainer,
 } from "./index.styled";
-import { useState } from "react";
-import { useRef } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import UploadLogo from "../../assests/icons/paper_upload.svg";
 import FileList from "../FileList";
 import { ToastContainer, toast } from "react-toastify";
@@ -23,6 +21,7 @@ const FileUpload = () => {
   const [files, setFiles] = useState([]);
   const fileInputRef = useRef(null);
   const [message, setMessage] = useState();
+  const [allFiles, setAllFiles] = useState();
   const navigate = useNavigate();
   const onFileChange = (e) => {
     const newFiles = Array.from(e.target.files);
@@ -85,7 +84,7 @@ const FileUpload = () => {
 
         if (response.ok) {
           const data = await response.json();
-          //   setUserMessage(data.message);
+          setAllFiles(data);
         } else {
           console.log("error");
         }
@@ -100,9 +99,10 @@ const FileUpload = () => {
     for (let i = 0; i < files.length; i++) {
       formData.append("files", files[i]);
     }
-    let token1="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhcmFmYXQiLCJleHAiOjE2ODQxOTU3MTF9.12PWPZl-mdM0wax9woOpS6sB6Vv5qhocwZyRqKw1Qm4"
+    let token1 =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhcmFmYXQiLCJleHAiOjE2ODQxOTU3MTF9.12PWPZl-mdM0wax9woOpS6sB6Vv5qhocwZyRqKw1Qm4";
     try {
-      const response = await fetch("http://18.224.9.172:8082/upload", {
+      const response = await fetch("/upload", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token1}`,
@@ -111,8 +111,7 @@ const FileUpload = () => {
       });
 
       if (response.ok) {
-        alert("file uploaded succesfull")
-        toast.success("Success Notification !");
+        alert("file uploaded succesfull");
 
         // setMessage("files uploaded successfull");
       } else {
@@ -127,19 +126,6 @@ const FileUpload = () => {
   let btnTextColor = files.length !== 0 ? "#000000" : "#828282";
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-
       <MainContainer>
         <FileList files={files} onRemoveFile={onRemoveFile} />
         <FileInputContainer>

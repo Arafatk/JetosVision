@@ -26,13 +26,14 @@ function App() {
      {!hideNavBar &&  <Navbar />}
       <Routes>
         <Route exact path="/" element={<ProtectedRoute  />}>
-          <Route path="/askme" element={<AskMe />} />
+      
+        <Route path="/" element={<CreateProjectScreen />} />
+        <Route path="/projectScreen" element={<ProjectScreen />} />
         </Route>
         <Route exact path="/login" element={<LoginIn />} />
         <Route exact path="/mainPage" element={<MainScreen />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/createProject" element={<CreateProjectScreen />} />
-        <Route path="/projectScreen" element={<ProjectScreen />} />
+       
       </Routes>
     </MainContainer>
   );
