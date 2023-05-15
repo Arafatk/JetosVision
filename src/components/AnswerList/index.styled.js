@@ -3,10 +3,10 @@ import styled from "styled-components";
 export const MainContainer = styled.div`
  
   width: 100%;
-  height: 880px;
+  height: auto;
+  max-height: 80vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  
   flex-direction: column;
   background: linear-gradient(
     180deg,
@@ -14,15 +14,14 @@ export const MainContainer = styled.div`
     rgba(48, 48, 48, 0) 100%
   );
   backdrop-filter: blur(250px);
-  border-radius: 32px;
-  border: 1px solid gray;
-  border-bottom: none;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  // border-radius: 10px;
+  will-change: transform;
+  // border: 1px solid gray;
   padding: 3rem;
-  margin: 0.2rem;
+ 
+  margin-top: 0.5rem;
   margin-bottom: 5rem;
-  overflow-y:scroll;
+  overflow-y: auto;
 `;
 
 export const SecondaryContainer = styled.div`

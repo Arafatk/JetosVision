@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import OtherSignUpOptions from "../OtherSignUpOptions";
 import { SignUpOptions, apiUrl } from "../../constants";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -25,15 +27,17 @@ const SignIn = () => {
     const data = await response.json();
 
     if (response.ok) {
-      console.log(data);
+      
       navigate("/login");
+      toast.success("Account created successfully")
     } else {
-      console.error("Error signing up");
+      toast.danger(response.message)
     }
   };
 
   return (
     <MainContainer>
+      <ToastContainer theme="dark" />
       <SecondaryContainer>
         <TextContainer>
           <Text1>Welcome to PageWishper</Text1>

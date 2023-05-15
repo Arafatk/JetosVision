@@ -39,7 +39,6 @@ export default function Navbar() {
     navigate("/signIn");
     setIsSignUp(LOGIN_SIGNUP.signUp);
   };
- 
 
   // useEffect(() => {
   //   if (location.pathname === "/signIn") {

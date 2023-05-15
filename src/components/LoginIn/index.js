@@ -2,7 +2,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import OtherSignUpOptions from "../OtherSignUpOptions";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { LoginOptions, apiUrl } from "../../constants";
 
 const LoginIn = () => {
@@ -27,11 +28,11 @@ const LoginIn = () => {
     const data = await response.json();
 
     if (response.ok) {
-      // console.log(data);
+      
       localStorage.setItem("token", data.access_token);
       navigate("/");
     } else {
-      console.error("Error logging in");
+      toast.warn(response.message)
     }
   };
 

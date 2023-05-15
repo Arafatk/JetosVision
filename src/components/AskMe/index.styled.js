@@ -151,6 +151,5 @@ export const InputContainer = styled.div`
   align-items: flex-end;
   justify-content: center;
   align-items: center;
+  background: #000000;
 `;
-
-

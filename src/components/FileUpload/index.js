@@ -16,7 +16,7 @@ import UploadLogo from "../../assests/icons/paper_upload.svg";
 import FileList from "../FileList";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { apiUrl } from "../../constants";
+import { StatusCodeError, apiUrl } from "../../constants";
 
 const FileUpload = () => {
   const [files, setFiles] = useState([]);
@@ -95,6 +95,7 @@ const FileUpload = () => {
   }, []);
 
   const uploadFiles = async (files) => {
+    let t = toast.loading("Uploading files");
     const formData = new FormData();
 
     for (let i = 0; i < files.length; i++) {
@@ -102,21 +103,40 @@ const FileUpload = () => {
     }
 
     try {
-      const response = await fetch(apiUrl+"/upload", {
+      const response = await fetch(apiUrl + "/upload", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: formData,
       });
 
       if (response.ok) {
-        console.log(response);
-        
-      } else {
-        throw Error("error uploading files");
+        toast.update(t, {
+          render: "File Uploaded successfully",
+          type: "success",
+          isLoading: false,
+        });
+        setFiles("");
+      } else if (response.status === 400) {
+        toast.update(t, {
+          render: StatusCodeError[400],
+          type: "error",
+          isLoading: false,
+        });
+
+        setFiles("");
+      } else if (response.status === 401) {
+        toast.update(t, {
+          render: StatusCodeError[401],
+          type: "error",
+          isLoading: false,
+        });
+        setFiles("");
       }
     } catch (error) {
+      console.log(error);
+      toast.warn(`Error uploading ${error.message}`);
       throw new Error(`Error uploading files: ${error.message}`);
     }
   };
@@ -125,6 +145,7 @@ const FileUpload = () => {
   let btnTextColor = files.length !== 0 ? "#000000" : "#828282";
   return (
     <>
+      <ToastContainer theme="dark" />
       <MainContainer>
         <FileList files={files} onRemoveFile={onRemoveFile} />
         <FileInputContainer>
@@ -149,7 +170,7 @@ const FileUpload = () => {
         </FileInputContainer>
         {files.length !== 0 && (
           <CreateButton
-            onClick={uploadFiles}
+            onClick={() => uploadFiles(files)}
             style={{ background: btnBackground, color: btnTextColor }}
           >
             Create assistant

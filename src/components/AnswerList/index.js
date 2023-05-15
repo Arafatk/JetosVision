@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   MainContainer,
   SecondaryContainer,
@@ -6,10 +7,15 @@ import {
 } from "./index.styled";
 
 const AnswerList = (props) => {
-  const {data}= props
+  const { data } = props;
+  useEffect(()=>{
+   
+  },[data])
   return (
-    <>
-      <MainContainer>
+    
+      <MainContainer
+       
+      >
         {data
           .slice()
           .reverse()
@@ -22,7 +28,7 @@ const AnswerList = (props) => {
             );
           })}
       </MainContainer>
-    </>
+    
   );
 };
 

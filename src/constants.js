@@ -33,4 +33,10 @@ export const LoginOptions = [
 ];
 
 
+export const  StatusCodeError= {
+   "400": "File is not a pdf file",
+   "401": "File has more then 100 pages"
+}
+
+
 export const apiUrl = 'http://18.224.9.172:8082'

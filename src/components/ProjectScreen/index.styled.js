@@ -77,7 +77,7 @@ export const AnswerContainer = styled.div`
   margin: 1rem auto;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  // gap: 12px;
 `;
 
 export const ProjectDataContainer = styled.div`

@@ -12,13 +12,16 @@ import {
 } from "./index.styled";
 
 import AnswerList from "../AnswerList";
+import { apiUrl } from "../../constants";
 
 const openAiCompletion = async (userQuery, messages, onText) => {
+
   try {
-    const apiKey = "Bearer " + process.env.REACT_APP_API_KEY;
+    const apiKey =
+      "Bearer " + "" ;
     let answer = "";
 
-    const queery = await fetch("/query", {
+    const queery = await fetch(apiUrl+"/query", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -118,7 +121,7 @@ export default function AskMe(props) {
   const [data, setData] = useState([
     {
       question:
-        "What is the number of times Dhoni hit a six in World cup 2010?",
+        "What is the number of times Dhoni hit a six in World cup 2011?",
       answer:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
     },
@@ -154,7 +157,7 @@ export default function AskMe(props) {
     },
     {
       question:
-        "What is the number of times Dhoni hit a six in World cup 2010?",
+        "What is the number of times Dhoni hit a six in World cup 2011?",
       answer:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
     },
@@ -177,20 +180,18 @@ export default function AskMe(props) {
 
   useEffect(() => {
     allData(data);
-  }, []);
+  }, [data]);
 
   return (
-    
-      <InputContainer>
-        <Formmain
-          placeholder="Enter your question"
-          onChange={(e) => {
-            setText(e.target.value);
-          }}
-          value={text}
-        ></Formmain>
-        <Askbutton onClick={askRequest}>Ask</Askbutton>
-      </InputContainer>
-   
+    <InputContainer>
+      <Formmain
+        placeholder="Enter your question"
+        onChange={(e) => {
+          setText(e.target.value);
+        }}
+        value={text}
+      ></Formmain>
+      <Askbutton onClick={askRequest}>Ask</Askbutton>
+    </InputContainer>
   );
 }

@@ -13,7 +13,7 @@ export const FileContainer = styled.div`
 `;
 
 export const MainContainer = styled.div`
-  width: 330px;
+  width: 15vw;
   height: 69px;
   display: flex;
   flex-direction: row;

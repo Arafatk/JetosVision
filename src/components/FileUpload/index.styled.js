@@ -22,7 +22,7 @@ export const FileInputContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: auto;
-  width: 338px;
+  width: 15vw;
   height: 150px;
   padding: 24px 0px;
   border: 3px dotted #706f73;
@@ -90,7 +90,7 @@ export const CreateButton = styled.button`
   border-radius: 64px;
 
   height: 61px;
-  width: 280px;
+  width: 15vw;
 
   font-size: 1.25rem;
 

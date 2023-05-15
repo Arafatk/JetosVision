@@ -31,13 +31,13 @@ const ProjectScreen = () => {
       <Box2>
         <ProjectDataContainer>
           <ProjectName>{projectname}</ProjectName>
-          <div>
+          
             {data && data.length !== 0 ? (
               <AnswerContainer>
                 <AnswerList data={data} />
               </AnswerContainer>
             ) : null}
-          </div>
+          
         </ProjectDataContainer>
 
         <ChatBoxContainer>
