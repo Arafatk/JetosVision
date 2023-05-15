@@ -31,3 +31,6 @@ export const LoginOptions = [
     signUpImage: MicrosoftLogo,
   },
 ];
+
+
+export const apiUrl = 'http://18.224.9.172:8082'

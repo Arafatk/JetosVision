@@ -1,21 +1,20 @@
 import { useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import OtherSignUpOptions from "../OtherSignUpOptions";
-import { SignUpOptions } from "../../constants";
+import { SignUpOptions, apiUrl } from "../../constants";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new URLSearchParams();
     formData.append("username", email);
     formData.append("password", password);
-    const response = await fetch("/signup", {
+    const response = await fetch(apiUrl + "/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -43,10 +42,10 @@ const SignIn = () => {
             clients
           </Text2>
         </TextContainer>
-        <OtherOptionsContainer >
-        <OtherSignUpOptions options={SignUpOptions} />
+        <OtherOptionsContainer>
+          <OtherSignUpOptions options={SignUpOptions} />
         </OtherOptionsContainer>
-       
+
         <InputContainer>
           <TextLabel>Email</TextLabel>
           <TextInput
@@ -72,7 +71,12 @@ const SignIn = () => {
 
         <ButtonContainer onClick={handleSubmit}>Sign Up</ButtonContainer>
         <BottomText>
-          <BottomText1>Already have an account? <Link to="/login" style={{ color: 'white' }} >Log in</Link></BottomText1>
+          <BottomText1>
+            Already have an account?{" "}
+            <Link to="/login" style={{ color: "white" }}>
+              Log in
+            </Link>
+          </BottomText1>
           <BottomText2>
             By using Page Whisperer you agree to the Terms of Service and
             Privacy Policy
@@ -219,6 +223,6 @@ export const BottomText2 = styled.div`
   color: #bdbdbd;
 `;
 
-export const OtherOptionsContainer= styled.div`
- margin-top: 12px
-`
+export const OtherOptionsContainer = styled.div`
+  margin-top: 12px;
+`;

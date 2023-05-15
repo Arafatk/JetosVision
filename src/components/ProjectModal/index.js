@@ -10,7 +10,7 @@ import {
 
 const ProjectModal = (props) => {
   const { handleProjects } = props;
-  const [projectName, setProjectName] = useState("");
+  const [projectName, setProjectName] = useState("asdasdas");
 
   return (
     <ModalContainer>
@@ -27,7 +27,7 @@ const ProjectModal = (props) => {
       <CreateButton
         onClick={() => {
           handleProjects(projectName);
-          setProjectName("");
+         
         }}
       >
         Create Project

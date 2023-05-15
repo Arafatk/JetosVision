@@ -14,8 +14,11 @@ import FileUpload from "../FileUpload";
 import AskMe from "../AskMe";
 import { useState } from "react";
 import AnswerList from "../AnswerList";
+import { useParams } from "react-router-dom";
 
 const ProjectScreen = () => {
+  const { projectname } = useParams();
+
   const [data, setData] = useState();
   const allData = (history) => {
     setData(history);
@@ -27,7 +30,7 @@ const ProjectScreen = () => {
       </Box1>
       <Box2>
         <ProjectDataContainer>
-          <ProjectName>Indonesia_Coal_230412_NTPC</ProjectName>
+          <ProjectName>{projectname}</ProjectName>
           <div>
             {data && data.length !== 0 ? (
               <AnswerContainer>

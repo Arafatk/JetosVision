@@ -20,7 +20,7 @@ const MainContainer = styled.div`
 
 function App() {
   const  location = useLocation()
-  const hideNavBar = location.pathname === '/createProject' || '/projectScreen';
+  const hideNavBar = location.pathname === '/createProject' || '/projectScreen' && (location.pathname !== '/mainPage') ;
   return (
     <MainContainer>
      {!hideNavBar &&  <Navbar />}
@@ -28,8 +28,9 @@ function App() {
         <Route exact path="/" element={<ProtectedRoute  />}>
       
         <Route path="/" element={<CreateProjectScreen />} />
-        <Route path="/projectScreen" element={<ProjectScreen />} />
+        <Route path="/projectScreen/:projectname" element={<ProjectScreen />} />
         </Route>
+  
         <Route exact path="/login" element={<LoginIn />} />
         <Route exact path="/mainPage" element={<MainScreen />} />
         <Route path="/signin" element={<SignIn />} />

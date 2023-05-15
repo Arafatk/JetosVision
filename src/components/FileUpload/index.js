@@ -16,6 +16,7 @@ import UploadLogo from "../../assests/icons/paper_upload.svg";
 import FileList from "../FileList";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { apiUrl } from "../../constants";
 
 const FileUpload = () => {
   const [files, setFiles] = useState([]);
@@ -99,21 +100,19 @@ const FileUpload = () => {
     for (let i = 0; i < files.length; i++) {
       formData.append("files", files[i]);
     }
-    let token1 =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhcmFmYXQiLCJleHAiOjE2ODQxOTU3MTF9.12PWPZl-mdM0wax9woOpS6sB6Vv5qhocwZyRqKw1Qm4";
+
     try {
-      const response = await fetch("/upload", {
+      const response = await fetch(apiUrl+"/upload", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token1}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: formData,
       });
 
       if (response.ok) {
-        alert("file uploaded succesfull");
-
-        // setMessage("files uploaded successfull");
+        console.log(response);
+        
       } else {
         throw Error("error uploading files");
       }

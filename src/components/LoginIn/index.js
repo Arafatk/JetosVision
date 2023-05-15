@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import OtherSignUpOptions from "../OtherSignUpOptions";
 
-import { LoginOptions } from "../../constants";
+import { LoginOptions, apiUrl } from "../../constants";
 
 const LoginIn = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const LoginIn = () => {
     const formData = new URLSearchParams();
     formData.append("username", email);
     formData.append("password", password);
-    const response = await fetch("token", {
+    const response = await fetch(apiUrl+"/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

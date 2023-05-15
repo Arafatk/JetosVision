@@ -13,43 +13,54 @@ import Folder from "../../assests/icons/folder.svg";
 import { useEffect, useState } from "react";
 import ProjectModal from "../ProjectModal";
 import Sidebar from "../Sidebar";
+import { apiUrl } from "../../constants";
 
 const CreateProjectScreen = () => {
+  const navigate = useNavigate();
   const [isCreateProjectModal, setIsCreateProjectModal] = useState(false);
   const [projects, setProjects] = useState([]);
 
-  const handleProjects = (text) => {
-    setProjects([...projects, text]);
-    setIsCreateProjectModal(!isCreateProjectModal);
+  const handleProjects = async (text) => {
+    const response = await fetch(apiUrl + "/create_namespaces", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem(`token`)}`,
+      },
+      body: JSON.stringify({ namespace: text }),
+    });
+    if (response.ok) {
+      setIsCreateProjectModal(!isCreateProjectModal);
+    } else {
+      console.error("Error creating  Project");
+    }
   };
 
   useEffect(() => {
-    console.log("hello")
     const fetchData = async () => {
-      console.log("hello")
       const token = localStorage.getItem("token");
       if (token) {
-        console.log("hello")
-        const response = await fetch(
-          "/list_namespaces",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(apiUrl + "/list_namespaces", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (response.ok) {
           const data = await response.json();
-          setProjects(data.namespaces)
+          setProjects(data.namespaces);
         } else {
           console.log("error");
         }
       }
     };
     fetchData();
-  }, []);
+  }, [isCreateProjectModal]);
+
+  const handleProject = (projectName) => {
+    navigate("/projectscreen/" + projectName);
+  };
 
   return (
     <>
@@ -61,7 +72,7 @@ const CreateProjectScreen = () => {
         </Box1>
         <Box2>
           {projects.length !== 0 ? (
-            <ProjectsContainer >
+            <ProjectsContainer>
               <CreateProjectBox
                 onClick={() => setIsCreateProjectModal(!isCreateProjectModal)}
               >
@@ -70,7 +81,10 @@ const CreateProjectScreen = () => {
               </CreateProjectBox>
               {projects.map((project, index) => {
                 return (
-                  <CreateProjectBox key={index}>
+                  <CreateProjectBox
+                    key={index}
+                    onClick={() => handleProject(project)}
+                  >
                     <img src={Folder} alt="navbar_logo" />
                     <CreateText>{project}</CreateText>
                   </CreateProjectBox>
