@@ -13,7 +13,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const formData = new URLSearchParams();
     formData.append("username", email);
     formData.append("password", password);
@@ -45,6 +45,13 @@ const SignIn = () => {
       } else {
         toast.error("Error creating account");
       }
+    }
+  };
+
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" || event.key === "Return") {
+     handleSubmit()
     }
   };
 
@@ -83,6 +90,7 @@ const SignIn = () => {
             }}
             type="password"
             value={password}
+            onKeyDown={handleKeyDown}
           ></TextInput>
         </InputContainer>
 

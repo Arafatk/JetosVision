@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import MainScreen from "./components/MainScreen";
 import CreateProjectScreen from "./components/CreateProjectScreen";
 import ProjectScreen from "./components/ProjectScreen";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 
 const MainContainer = styled.div`
   background: rgba(0, 0, 0, 0.1);
@@ -19,22 +20,26 @@ const MainContainer = styled.div`
 `;
 
 function App() {
-  const  location = useLocation()
-  const hideNavBar = location.pathname === '/createProject' || '/projectScreen' && (location.pathname !== '/mainPage') ;
+  const location = useLocation();
+  const hideNavBar =
+    location.pathname === "/createProject" ||
+    ("/projectScreen" && location.pathname !== "/mainPage");
   return (
     <MainContainer>
-     {!hideNavBar &&  <Navbar />}
+      {!hideNavBar && <Navbar />}
       <Routes>
-        <Route exact path="/" element={<ProtectedRoute  />}>
-      
-        <Route path="/" element={<CreateProjectScreen />} />
-        <Route path="/projectScreen/:projectname" element={<ProjectScreen />} />
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route path="/" element={<CreateProjectScreen />} />
+          <Route
+            path="/projectScreen/:projectname"
+            element={<ProjectScreen />}
+          />
         </Route>
-  
+
         <Route exact path="/login" element={<LoginIn />} />
         <Route exact path="/mainPage" element={<MainScreen />} />
         <Route path="/signin" element={<SignIn />} />
-       
+        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       </Routes>
     </MainContainer>
   );

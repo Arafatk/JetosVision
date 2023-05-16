@@ -8,7 +8,7 @@ import {
 } from "./index.styled";
 import "./index.css";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HowItWorks from "../HowItWorks";
 import Faq from "../Faq";
 import AboutSection from "../AboutSection";
@@ -39,6 +39,12 @@ const FileUpload = () => {
         <AboutSection />
 
         <Faq />
+
+        <Whitetext onClick={()=>{
+          navigate('/privacypolicy')
+        }}>
+          Privacy Policy
+        </Whitetext>
       </Blackwrapper>
     </>
   );

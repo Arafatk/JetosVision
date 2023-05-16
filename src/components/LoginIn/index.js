@@ -17,7 +17,7 @@ const LoginIn = () => {
 
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const formData = new URLSearchParams();
     formData.append("username", email);
     formData.append("password", password);
@@ -31,12 +31,12 @@ const LoginIn = () => {
     const validation = schema.validate(formDataObject, { abortEarly: false });
 
     if (validation.error) {
-      console.log(formDataObject);
+     
       validation.error.details.forEach((error) => {
         toast.error(error.message, { autoClose: 5000 });
       });
     } else {
-      console.log(formDataObject);
+     
       const response = await fetch(apiUrl + "/token", {
         method: "POST",
         headers: {
@@ -54,6 +54,14 @@ const LoginIn = () => {
       } else {
         toast.error("Error logging in");
       }
+    }
+  };
+
+  const handleKeyDown = (event) => {
+   
+    if (event.key === 'Enter' || event.key === 'Return') {
+      console.log('yyash')
+      handleSubmit()
     }
   };
 
@@ -76,6 +84,7 @@ const LoginIn = () => {
               setEmail(e.target.value);
             }}
             type="text"
+           
             value={email}
           ></TextInput>
         </InputContainer>
@@ -86,12 +95,14 @@ const LoginIn = () => {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+           
             type="password"
             value={password}
+            onKeyDown={handleKeyDown} 
           ></TextInput>
         </InputContainer>
 
-        <ButtonContainer onClick={handleSubmit}>Login</ButtonContainer>
+        <ButtonContainer  onClick={handleSubmit}>Login</ButtonContainer>
         <BottomText>
           <BottomText1>
             Already have an account?{" "}

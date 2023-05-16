@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Askbutton,
-  Formmain,
-  Blackwrapper,
-  Whitetext,
-  Bluetext,
-  TextContainer,
-  InputContainer,
-  AnswerContainer,
-  LoadingContainer,
-} from "./index.styled";
+import { Askbutton, Formmain, InputContainer } from "./index.styled";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AnswerList from "../AnswerList";
@@ -18,7 +8,7 @@ import { apiUrl } from "../../constants";
 const openAiCompletion = async (userQuery, messages, onText) => {
   try {
     const apiKey =
-      "Bearer " + "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";
+      "Bearer " + "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";
     let answer = "";
 
     const queery = await fetch(apiUrl + "/query", {
@@ -120,7 +110,7 @@ export default function AskMe(props) {
   const [generatedTextt, setGeneratedText] = useState("");
   const [data, setData] = useState();
 
-  const askRequest = async () => {
+  const askRequest = async (event) => {
     const messages = [
       { role: "system", content: "You are a helpful assistant." },
       { role: "user", content: text },
@@ -160,6 +150,11 @@ export default function AskMe(props) {
     fetchData();
   }, []);
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" || event.key === "Return") {
+      handleKeyDown();
+    }
+  };
   return (
     <InputContainer>
       <ToastContainer />
@@ -168,6 +163,7 @@ export default function AskMe(props) {
         onChange={(e) => {
           setText(e.target.value);
         }}
+        onKeyDown={handleKeyDown}
         value={text}
       ></Formmain>
       <Askbutton onClick={askRequest}>Ask</Askbutton>

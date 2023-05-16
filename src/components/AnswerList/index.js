@@ -8,25 +8,21 @@ import {
 
 const AnswerList = (props) => {
   const { data } = props;
-  useEffect(()=>{
-   
-  },[data])
+  useEffect(() => {}, [data]);
   return (
-    
-      <MainContainer
-       
-      >
-        {data
-          .map((param, index) => {
-            return (
-              <SecondaryContainer key={index}>
-                <Question>{param.question}</Question>
-                <Answer>{param.answer}</Answer>
-              </SecondaryContainer>
-            );
-          })}
-      </MainContainer>
-    
+    <MainContainer>
+      {data
+        .slice()
+        .reverse()
+        .map((param, index) => {
+          return (
+            <SecondaryContainer key={index}>
+              <Question>{param.question}</Question>
+              <Answer>{param.answer}</Answer>
+            </SecondaryContainer>
+          );
+        })}
+    </MainContainer>
   );
 };
 

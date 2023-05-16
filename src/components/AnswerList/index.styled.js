@@ -4,7 +4,7 @@ export const MainContainer = styled.div`
  
   width: 100%;
   height: auto;
-  max-height: 75vh;
+  max-height: 70vh;
   display: flex;
   
   flex-direction: column;
