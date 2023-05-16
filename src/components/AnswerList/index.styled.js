@@ -4,7 +4,7 @@ export const MainContainer = styled.div`
  
   width: 100%;
   height: auto;
-  max-height: 80vh;
+  max-height: 75vh;
   display: flex;
   
   flex-direction: column;
@@ -22,6 +22,7 @@ export const MainContainer = styled.div`
   margin-top: 0.5rem;
   margin-bottom: 5rem;
   overflow-y: auto;
+  scroll-behavior: smooth;
 `;
 
 export const SecondaryContainer = styled.div`

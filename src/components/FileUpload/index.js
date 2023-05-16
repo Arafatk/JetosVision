@@ -20,6 +20,7 @@ import { StatusCodeError, apiUrl } from "../../constants";
 
 const FileUpload = () => {
   const [files, setFiles] = useState([]);
+ 
   const fileInputRef = useRef(null);
   const [message, setMessage] = useState();
   const [allFiles, setAllFiles] = useState();
@@ -72,28 +73,6 @@ const FileUpload = () => {
     console.log(files);
   }, [files]);
 
-  //fetch user message
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        const response = await fetch("/hello", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setAllFiles(data);
-        } else {
-          console.log("error");
-        }
-      }
-    };
-    fetchData();
-  }, []);
-
   const uploadFiles = async (files) => {
     let t = toast.loading("Uploading files");
     const formData = new FormData();
@@ -136,16 +115,22 @@ const FileUpload = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.warn(`Error uploading ${error.message}`);
+      toast.update(t, {
+        render: error,
+        type: "error",
+        isLoading: false,
+      });
       throw new Error(`Error uploading files: ${error.message}`);
     }
   };
 
+  
   let btnBackground = files.length !== 0 ? "#FFFFFF" : "#1b1b1b";
   let btnTextColor = files.length !== 0 ? "#000000" : "#828282";
   return (
     <>
       <ToastContainer theme="dark" />
+      
       <MainContainer>
         <FileList files={files} onRemoveFile={onRemoveFile} />
         <FileInputContainer>

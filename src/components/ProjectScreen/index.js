@@ -12,17 +12,44 @@ import {
 import Sidebar from "../Sidebar";
 import FileUpload from "../FileUpload";
 import AskMe from "../AskMe";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AnswerList from "../AnswerList";
 import { useParams } from "react-router-dom";
+import { apiUrl } from "../../constants";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import FileList from "../FileList";
 
 const ProjectScreen = () => {
   const { projectname } = useParams();
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const [data, setData] = useState();
   const allData = (history) => {
     setData(history);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const response = await fetch(apiUrl + "/files", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUploadedFiles(data.files);
+        } else {
+          toast.error("Error fetching files");
+        }
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <MainContainer>
       <Box1>
@@ -31,13 +58,12 @@ const ProjectScreen = () => {
       <Box2>
         <ProjectDataContainer>
           <ProjectName>{projectname}</ProjectName>
-          
-            {data && data.length !== 0 ? (
-              <AnswerContainer>
-                <AnswerList data={data} />
-              </AnswerContainer>
-            ) : null}
-          
+
+          {data && data.length !== 0 ? (
+            <AnswerContainer>
+              <AnswerList data={data} />
+            </AnswerContainer>
+          ) : null}
         </ProjectDataContainer>
 
         <ChatBoxContainer>
@@ -45,7 +71,9 @@ const ProjectScreen = () => {
         </ChatBoxContainer>
       </Box2>
       <Box3>
+      <FileList files={uploadedFiles} onRemoveFile={() => {}} />
         <PrimaryContainer>
+         
           <FileUpload />
         </PrimaryContainer>
       </Box3>

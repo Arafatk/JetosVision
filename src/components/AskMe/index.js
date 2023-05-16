@@ -10,18 +10,18 @@ import {
   AnswerContainer,
   LoadingContainer,
 } from "./index.styled";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AnswerList from "../AnswerList";
 import { apiUrl } from "../../constants";
 
 const openAiCompletion = async (userQuery, messages, onText) => {
-
   try {
     const apiKey =
-      "Bearer " + "" ;
+      "Bearer " + "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";
     let answer = "";
 
-    const queery = await fetch(apiUrl+"/query", {
+    const queery = await fetch(apiUrl + "/query", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const openAiCompletion = async (userQuery, messages, onText) => {
             body: JSON.stringify({
               messages: secMessages,
               model: "gpt-4",
-              max_tokens: 7048,
+              // max_tokens: 7048,
               temperature: 1,
               stream: true,
             }),
@@ -118,50 +118,7 @@ export default function AskMe(props) {
   const { allData } = props;
   const [text, setText] = useState("");
   const [generatedTextt, setGeneratedText] = useState("");
-  const [data, setData] = useState([
-    {
-      question:
-        "What is the number of times Dhoni hit a six in World cup 2011?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
-    },
-    {
-      question:
-        "What is the number of times Dhoni hit a six in World cup 2010?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
-    },
-    {
-      question:
-        "What is the number of times Dhoni hit a six in World cup 2010?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
-    },
-    {
-      question:
-        "What is the number of times Dhoni hit a six in World cup 2010?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
-    },
-    {
-      question:
-        "What is the number of times Dhoni hit a six in World cup 2010?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
-    },
-    {
-      question:
-        "What is the number of times Dhoni hit a six in World cup 2010?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
-    },
-    {
-      question:
-        "What is the number of times Dhoni hit a six in World cup 2011?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim",
-    },
-  ]);
+  const [data, setData] = useState();
 
   const askRequest = async () => {
     const messages = [
@@ -182,8 +139,30 @@ export default function AskMe(props) {
     allData(data);
   }, [data]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const response = await fetch(apiUrl + "/chat_history", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setData(data);
+        } else {
+          toast.error("Error fetching chat history ");
+        }
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <InputContainer>
+      <ToastContainer />
       <Formmain
         placeholder="Enter your question"
         onChange={(e) => {
