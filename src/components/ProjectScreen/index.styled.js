@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const MainContainer = styled.div`
   display: flex;
   justify-content: center;
-
-  height: 100vh;
+ overflow: hidden;
+  height: 100vh
 `;
 
 export const Box1 = styled.div`
@@ -18,6 +18,7 @@ export const Box1 = styled.div`
 
 export const Box2 = styled.div`
   flex: 9;
+ 
   width: 100%;
   border: 2px solid #3e3e3e;
   display: flex;
@@ -31,7 +32,6 @@ export const Box3 = styled.div`
   padding: 2px;
   overflow-y: scroll;
   border: 2px solid #3e3e3e;
-  height: 100vh;
   width: 100%;
   display: flex;
   justify-content: center;

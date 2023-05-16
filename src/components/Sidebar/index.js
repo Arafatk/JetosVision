@@ -12,7 +12,7 @@ import Logout from "../../assests/icons/logout.svg";
 const Sidebar = () => {
   const navigate = useNavigate();
   const handleMainScreen = (e) => {
-    navigate("/mainPage");
+    navigate("/");
   };
 
   const handleLogout = (e) => {

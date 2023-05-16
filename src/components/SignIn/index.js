@@ -5,6 +5,7 @@ import OtherSignUpOptions from "../OtherSignUpOptions";
 import { SignUpOptions, apiUrl } from "../../constants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { schema } from "../../validations/schema";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -16,22 +17,34 @@ const SignIn = () => {
     const formData = new URLSearchParams();
     formData.append("username", email);
     formData.append("password", password);
-    const response = await fetch(apiUrl + "/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: formData.toString(),
+    const formDataObject = {};
+
+    formData.forEach((value, key) => {
+      formDataObject[key] = value;
     });
+    const validation = schema.validate(formDataObject, { abortEarly: false });
 
-    const data = await response.json();
-
-    if (response.ok) {
-      
-      navigate("/login");
-      toast.success("Account created successfully")
+    if (validation.error) {
+      validation.error.details.forEach((error) => {
+        toast.error(error.message, { autoClose: 5000 });
+      });
     } else {
-      toast.danger(response.message)
+      const response = await fetch(apiUrl + "/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formData.toString(),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        navigate("/login");
+        toast.success("Account created successfully");
+      } else {
+        toast.error("Error creating account");
+      }
     }
   };
 
