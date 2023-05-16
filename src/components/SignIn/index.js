@@ -1,40 +1,63 @@
 import { useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import OtherSignUpOptions from "../OtherSignUpOptions";
-import { SignUpOptions } from "../../constants";
+import { SignUpOptions, apiUrl } from "../../constants";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { schema } from "../../validations/schema";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const formData = new URLSearchParams();
     formData.append("username", email);
     formData.append("password", password);
-    const response = await fetch("/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: formData.toString(),
+    const formDataObject = {};
+
+    formData.forEach((value, key) => {
+      formDataObject[key] = value;
     });
+    const validation = schema.validate(formDataObject, { abortEarly: false });
 
-    const data = await response.json();
-
-    if (response.ok) {
-      console.log(data);
-      navigate("/login");
+    if (validation.error) {
+      validation.error.details.forEach((error) => {
+        toast.error(error.message, { autoClose: 5000 });
+      });
     } else {
-      console.error("Error signing up");
+      const response = await fetch(apiUrl + "/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formData.toString(),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        navigate("/login");
+        toast.success("Account created successfully");
+      } else {
+        toast.error("Error creating account");
+      }
+    }
+  };
+
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" || event.key === "Return") {
+     handleSubmit()
     }
   };
 
   return (
     <MainContainer>
+      <ToastContainer theme="dark" />
       <SecondaryContainer>
         <TextContainer>
           <Text1>Welcome to PageWishper</Text1>
@@ -43,10 +66,10 @@ const SignIn = () => {
             clients
           </Text2>
         </TextContainer>
-        <OtherOptionsContainer >
-        <OtherSignUpOptions options={SignUpOptions} />
+        <OtherOptionsContainer>
+          <OtherSignUpOptions options={SignUpOptions} />
         </OtherOptionsContainer>
-       
+
         <InputContainer>
           <TextLabel>Email</TextLabel>
           <TextInput
@@ -67,12 +90,18 @@ const SignIn = () => {
             }}
             type="password"
             value={password}
+            onKeyDown={handleKeyDown}
           ></TextInput>
         </InputContainer>
 
         <ButtonContainer onClick={handleSubmit}>Sign Up</ButtonContainer>
         <BottomText>
-          <BottomText1>Already have an account? <Link to="/login" style={{ color: 'white' }} >Log in</Link></BottomText1>
+          <BottomText1>
+            Already have an account?{" "}
+            <Link to="/login" style={{ color: "white" }}>
+              Log in
+            </Link>
+          </BottomText1>
           <BottomText2>
             By using Page Whisperer you agree to the Terms of Service and
             Privacy Policy
@@ -219,6 +248,6 @@ export const BottomText2 = styled.div`
   color: #bdbdbd;
 `;
 
-export const OtherOptionsContainer= styled.div`
- margin-top: 12px
-`
+export const OtherOptionsContainer = styled.div`
+  margin-top: 12px;
+`;

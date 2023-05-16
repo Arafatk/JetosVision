@@ -4,32 +4,38 @@ export const FileContainer = styled.div`
   flex-direction: row;
   gap: 12px;
 
-  ${'' /* Changed */}
-  ${'' /* border: 2px solid green; */}
   width: 100%;
   margin: 1rem auto;
   flex-direction: row;
   flex-wrap: wrap;
+  max-height: 300px;
+  overflow-y:scroll;
 `;
 
 export const MainContainer = styled.div`
+  width: 15vw;
+  height: 69px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  gap: 24px;
-  width: 232px;
-  height: 293px;
-  background: rgba(235, 235, 235, 0.05);
-  backdrop-filter: blur(250px);
-  border-radius: 32px;
 
-  ${'' /* Changed */}
-  margin: 0.25rem auto;
-  padding: 0;
-  flex-wrap: wrap;
-  ${'' /* border: 2px solid green; */}
+  border-radius: 16px;
+
+  padding: 4px 8px 4px 8px;
+  border: 2px solid #ffffff60;
+  margin: 8px;
+`;
+
+export const FileNameContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justtify-content: center;
+  gap: 18px;
+  img:{
+    user-select:none
+  }
 `;
 
 export const ImageText = styled.div`
@@ -41,17 +47,9 @@ export const ImageText = styled.div`
   line-height: 19px;
   color: #e0e0e0;
   flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0;
-  z-index: 1;
+  user-select:none
 `;
 
 export const RemoveImage = styled.img`
-  position: absolute;
-  right: 30px;
-  top: 36px;
   cursor: pointer;
 `;
-
-

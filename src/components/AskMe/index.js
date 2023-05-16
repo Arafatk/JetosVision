@@ -1,28 +1,21 @@
 import React, { useState, useEffect } from "react";
-import {
-  Askbutton,
-  Formmain,
-  Blackwrapper,
-  Whitetext,
-  Bluetext,
-  TextContainer,
-  InputContainer,
-  AnswerContainer,
-  LoadingContainer,
-} from "./index.styled";
-
+import { Askbutton, Formmain, InputContainer } from "./index.styled";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AnswerList from "../AnswerList";
+import { apiUrl } from "../../constants";
 
 const openAiCompletion = async (userQuery, messages, onText) => {
   try {
-    const apiKey = "Bearer " + process.env.REACT_APP_API_KEY;
+    const apiKey =
+      "Bearer " + "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";
     let answer = "";
 
-    const queery = await fetch("/query", {
+    const queery = await fetch(apiUrl + "/query", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({
         query: userQuery, // Use the userQuery parameter instead of the hard-coded value
@@ -45,24 +38,27 @@ const openAiCompletion = async (userQuery, messages, onText) => {
           { role: "user", content: answer },
         ];
 
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            Authorization: apiKey,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            messages: secMessages,
-            model: "gpt-4",
-            max_tokens: 7048,
-            temperature: 1,
-            stream: true,
-          }),
-        });
+        const response = await fetch(
+          "https://api.openai.com/v1/chat/completions",
+          {
+            method: "POST",
+            headers: {
+              Authorization: apiKey,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              messages: secMessages,
+              model: "gpt-4",
+              // max_tokens: 7048,
+              temperature: 1,
+              stream: true,
+            }),
+          }
+        );
         if (!response.ok) {
-         const errorText = await response.text();
+          const errorText = await response.text();
           console.error("OpenAI API error:", errorText);
-        throw new Error("OpenAI API error");
+          throw new Error("OpenAI API error");
         }
 
         const decoder = new TextDecoder("utf8");
@@ -103,18 +99,18 @@ const openAiCompletion = async (userQuery, messages, onText) => {
 
         return fullText;
       });
-
   } catch (error) {
     return error;
   }
 };
 
-export default function AskMe() {
+export default function AskMe(props) {
+  const { allData } = props;
   const [text, setText] = useState("");
   const [generatedTextt, setGeneratedText] = useState("");
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
 
-  const askRequest = async () => {
+  const askRequest = async (event) => {
     const messages = [
       { role: "system", content: "You are a helpful assistant." },
       { role: "user", content: text },
@@ -129,31 +125,48 @@ export default function AskMe() {
     setText(" ");
   };
 
+  useEffect(() => {
+    allData(data);
+  }, [data]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const response = await fetch(apiUrl + "/chat_history", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setData(data);
+        } else {
+          toast.error("Error fetching chat history ");
+        }
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" || event.key === "Return") {
+      handleKeyDown();
+    }
+  };
   return (
-    <div>
-      <div>
-        <Blackwrapper>
-          <TextContainer>
-            <Whitetext>Ask me</Whitetext>
-            <Bluetext>Anything</Bluetext>
-          </TextContainer>
-          <InputContainer>
-            <Formmain
-              placeholder="Enter your question"
-              onChange={(e) => {
-                setText(e.target.value);
-              }}
-              value={text}
-            ></Formmain>
-            <Askbutton onClick={askRequest}>Ask</Askbutton>
-          </InputContainer>
-        </Blackwrapper>
-      </div>
-      {data.length !== 0 ? (
-        <AnswerContainer>
-          <AnswerList data={data} />
-        </AnswerContainer>
-      ) : null}
-    </div>
+    <InputContainer>
+      <ToastContainer />
+      <Formmain
+        placeholder="Enter your question"
+        onChange={(e) => {
+          setText(e.target.value);
+        }}
+        onKeyDown={handleKeyDown}
+        value={text}
+      ></Formmain>
+      <Askbutton onClick={askRequest}>Ask</Askbutton>
+    </InputContainer>
   );
 }

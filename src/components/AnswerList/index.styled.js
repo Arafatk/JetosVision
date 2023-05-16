@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const MainContainer = styled.div`
-  width: 90%;
+ 
+  width: 100%;
   height: auto;
+  max-height: 70vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  
   flex-direction: column;
   background: linear-gradient(
     180deg,
@@ -13,14 +14,19 @@ export const MainContainer = styled.div`
     rgba(48, 48, 48, 0) 100%
   );
   backdrop-filter: blur(250px);
-  border-radius: 32px;
-  border: 1px solid gray;
-  padding: 1rem;
-  margin: 0.2rem;
+  // border-radius: 10px;
+  will-change: transform;
+  // border: 1px solid gray;
+  padding: 3rem;
+ 
+  margin-top: 0.5rem;
   margin-bottom: 5rem;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 `;
 
 export const SecondaryContainer = styled.div`
+ 
   width: 100%;
   height: auto;
   background: linear-gradient(

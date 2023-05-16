@@ -1,12 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import Navbar from "./components/Navbar";
-import FileUpload from "./components/FileUpload";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import AskMe from "./components/AskMe";
 import LoginIn from "./components/LoginIn";
 import SignIn from "./components/SignIn";
 import ProtectedRoute from "./components/ProtectedRoute";
+import MainScreen from "./components/MainScreen";
+import CreateProjectScreen from "./components/CreateProjectScreen";
+import ProjectScreen from "./components/ProjectScreen";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 
 const MainContainer = styled.div`
   background: rgba(0, 0, 0, 0.1);
@@ -17,18 +20,26 @@ const MainContainer = styled.div`
 `;
 
 function App() {
+  const location = useLocation();
+  const hideNavBar =
+    location.pathname === "/createProject" ||
+    ("/projectScreen" && location.pathname !== "/mainPage");
   return (
     <MainContainer>
-      <Navbar />
+      {!hideNavBar && <Navbar />}
       <Routes>
-        <Route exact path="/" element={<ProtectedRoute  />}>
-          <Route exact path="/" element={<FileUpload />} />
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route path="/" element={<CreateProjectScreen />} />
+          <Route
+            path="/projectScreen/:projectname"
+            element={<ProjectScreen />}
+          />
         </Route>
+
         <Route exact path="/login" element={<LoginIn />} />
-
+        <Route exact path="/mainPage" element={<MainScreen />} />
         <Route path="/signin" element={<SignIn />} />
-
-        <Route path="/askme" element={<AskMe />} />
+        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       </Routes>
     </MainContainer>
   );

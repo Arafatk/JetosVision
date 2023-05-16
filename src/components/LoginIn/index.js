@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import OtherSignUpOptions from "../OtherSignUpOptions";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { LoginOptions, apiUrl } from "../../constants";
+import { schema } from "../../validations/schema";
 
-import { LoginOptions } from "../../constants";
 
 const LoginIn = () => {
   const navigate = useNavigate();
@@ -11,72 +14,106 @@ const LoginIn = () => {
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
 
+
+
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const formData = new URLSearchParams();
     formData.append("username", email);
     formData.append("password", password);
-    const response = await fetch("/token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: formData.toString(),
+
+    const formDataObject = {};
+    
+    formData.forEach((value, key) => {
+      formDataObject[key] = value;
     });
 
-    const data = await response.json();
+    const validation = schema.validate(formDataObject, { abortEarly: false });
 
-    if (response.ok) {
-      // console.log(data);
-      localStorage.setItem("token", data.access_token);
-      navigate("/");
+    if (validation.error) {
+     
+      validation.error.details.forEach((error) => {
+        toast.error(error.message, { autoClose: 5000 });
+      });
     } else {
-      console.error("Error logging in");
+     
+      const response = await fetch(apiUrl + "/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formData.toString(),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.access_token);
+        navigate("/");
+        toast.success("Login successful");
+      } else {
+        toast.error("Error logging in");
+      }
+    }
+  };
+
+  const handleKeyDown = (event) => {
+   
+    if (event.key === 'Enter' || event.key === 'Return') {
+      console.log('yyash')
+      handleSubmit()
     }
   };
 
   return (
     <MainContainer>
-    <SecondaryContainer>
-      <TextContainer>
-        <Text1>Log In</Text1>
-      </TextContainer>
-      <OtherOptionsContainer >
-      <OtherSignUpOptions options={LoginOptions} />
-      </OtherOptionsContainer>
-     
-      <InputContainer>
-        <TextLabel>Email</TextLabel>
-        <TextInput
-          placeholder="Enter Email address"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          type="text"
-          value={email}
-        ></TextInput>
-      </InputContainer>
-      <InputContainer>
-        <TextLabel>Password</TextLabel>
-        <TextInput
-          placeholder="Enter Password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          type="password"
-          value={password}
-        ></TextInput>
-      </InputContainer>
+      <ToastContainer theme="dark" />
+      <SecondaryContainer>
+        <TextContainer>
+          <Text1>Log In</Text1>
+        </TextContainer>
+        <OtherOptionsContainer>
+          <OtherSignUpOptions options={LoginOptions} />
+        </OtherOptionsContainer>
 
-      <ButtonContainer onClick={handleSubmit}>Login</ButtonContainer>
-      <BottomText>
-        <BottomText1>Already have an account? <Link to="/signIn" style={{ color: 'white' }} >Sign Up</Link></BottomText1>
-        <BottomText2>
-          Forgot Password?
-        </BottomText2>
-      </BottomText>
-    </SecondaryContainer>
-  </MainContainer>
+        <InputContainer>
+          <TextLabel>Email</TextLabel>
+          <TextInput
+            placeholder="Enter Email address"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            type="text"
+           
+            value={email}
+          ></TextInput>
+        </InputContainer>
+        <InputContainer>
+          <TextLabel>Password</TextLabel>
+          <TextInput
+            placeholder="Enter Password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+           
+            type="password"
+            value={password}
+            onKeyDown={handleKeyDown} 
+          ></TextInput>
+        </InputContainer>
+
+        <ButtonContainer  onClick={handleSubmit}>Login</ButtonContainer>
+        <BottomText>
+          <BottomText1>
+            Already have an account?{" "}
+            <Link to="/signIn" style={{ color: "white" }}>
+              Sign Up
+            </Link>
+          </BottomText1>
+          <BottomText2>Forgot Password?</BottomText2>
+        </BottomText>
+      </SecondaryContainer>
+    </MainContainer>
   );
 };
 
@@ -216,6 +253,6 @@ export const BottomText2 = styled.div`
   color: #bdbdbd;
 `;
 
-export const OtherOptionsContainer= styled.div`
- margin-top: 12px
-`
+export const OtherOptionsContainer = styled.div`
+  margin-top: 12px;
+`;
