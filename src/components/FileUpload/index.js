@@ -157,7 +157,7 @@ const FileUpload = () => {
     <>
       <Blackwrapper>
         <Whitetext> Pagewhisperer</Whitetext>
-        <Bluetext>User Message: {userMessage}</Bluetext>
+        <Bluetext> {userMessage}</Bluetext>
         <Bluetext>Your Personal Research assistant</Bluetext>
         <Textbox2>
           Attach all documents you want to source information from

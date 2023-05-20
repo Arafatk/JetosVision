@@ -70,9 +70,9 @@ const LoginIn = () => {
 
       <ButtonContainer onClick={handleSubmit}>Login</ButtonContainer>
       <BottomText>
-        <BottomText1>Already have an account? <Link to="/signIn" style={{ color: 'white' }} >Sign Up</Link></BottomText1>
+        <BottomText1>Don't have an account <Link to="/signIn" style={{ color: 'white' }} >Sign Up</Link></BottomText1>
         <BottomText2>
-          Forgot Password?
+         
         </BottomText2>
       </BottomText>
     </SecondaryContainer>
